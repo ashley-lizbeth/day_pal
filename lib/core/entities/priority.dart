@@ -10,7 +10,6 @@ const priorityValues = <int, PriorityData>{
   5: ("Lowest priority", Icons.keyboard_double_arrow_down)
 };
 
-PriorityData? definePriorityValue(int value) {
-  if (!priorityValues.containsKey(value)) return null;
-  return priorityValues[value];
+PriorityData? getPriorityFromID(int id) {
+  return priorityValues[id];
 }
