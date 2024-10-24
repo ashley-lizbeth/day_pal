@@ -17,7 +17,7 @@ void main() {
       expect(task.deadline, null);
     });
 
-    test('Compare task with expired deadline', () {
+    test('Create task with expired deadline', () {
       final task = Task("0", "A sample task");
       task.createdAt = DateTime.utc(2024, 12, 31);
       task.deadline = DateTime.utc(2020, 01, 01);
@@ -33,7 +33,7 @@ void main() {
       expect(task.hasExpired(), null);
     });
 
-    test('Create task with priority', () {
+    test('Compare tasks with differing priority', () {
       final topTask = Task("1", "Important task");
       topTask.priority = 1;
 
@@ -64,7 +64,8 @@ void main() {
     });
 
     test("Database is open", () {
-      expect(db.tasks != null, true);
+      // Expand when adding new repositories
+      assert(db.tasks != null);
     });
 
     test("Insert task into database", () {
