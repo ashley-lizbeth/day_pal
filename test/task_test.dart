@@ -14,7 +14,6 @@ void main() {
       expect(task.title, "A sample task");
       expect(task.priority, 3);
       expect(task.status, Status.doing);
-      expect(task.reasonForStatus, "");
       expect(task.deadline, null);
     });
 

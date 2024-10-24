@@ -10,7 +10,6 @@ class InMemoryTask extends Task {
     priority = task.priority;
 
     status = task.status;
-    reasonForStatus = task.reasonForStatus;
 
     createdAt = task.createdAt;
     deadline = task.deadline;

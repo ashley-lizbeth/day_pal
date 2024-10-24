@@ -8,7 +8,6 @@ class Task implements Comparable<Task> {
   int priority = 3;
 
   Status status = Status.doing;
-  String reasonForStatus = "";
 
   DateTime createdAt = DateTime.now();
   DateTime? deadline;
@@ -19,7 +18,6 @@ class Task implements Comparable<Task> {
     priority = task.priority;
 
     status = task.status;
-    reasonForStatus = task.reasonForStatus;
 
     createdAt = task.createdAt;
     deadline = task.deadline;
@@ -67,8 +65,8 @@ class Task implements Comparable<Task> {
   }
 
   @override
-  int get hashCode => Object.hash(
-      id, title, priority, status, reasonForStatus, createdAt, deadline);
+  int get hashCode =>
+      Object.hash(id, title, priority, status, createdAt, deadline);
 
   @override
   bool operator ==(Object other) {
