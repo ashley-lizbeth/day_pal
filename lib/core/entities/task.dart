@@ -1,30 +1,36 @@
-import 'package:flutter_todo/core/entities/status.dart';
-
 class Task implements Comparable<Task> {
   final String id;
 
   String title;
 
-  int priority = 3;
+  String description = "";
+  String groupID = "";
+  List<String> tagsIDs = [];
 
-  Status status = Status.doing;
+  int priority = 3;
+  int status = 1;
 
   DateTime createdAt = DateTime.now();
   DateTime? deadline;
 
   Task(this.id, this.title);
 
-  Task.from(Task task, this.id, this.title) {
-    priority = task.priority;
+  void copy(Task from, Task to) {
+    to.description = from.description;
+    to.groupID = from.groupID;
+    to.tagsIDs = from.tagsIDs;
 
-    status = task.status;
+    to.priority = from.priority;
+    to.status = from.status;
 
-    createdAt = task.createdAt;
-    deadline = task.deadline;
+    to.createdAt = from.createdAt;
+    to.deadline = from.deadline;
   }
 
   Task getSelf() {
-    return Task.from(this, id, title);
+    Task copyOfSelf = Task(id, title);
+    copy(this, copyOfSelf);
+    return copyOfSelf;
   }
 
   bool? hasExpired() {
@@ -45,7 +51,7 @@ class Task implements Comparable<Task> {
 
   @override
   int compareTo(Task other) {
-    var statusComparison = status.index.compareTo(other.status.index);
+    var statusComparison = status.compareTo(other.status);
     if (statusComparison != 0) return statusComparison;
 
     var priorityComparison = priority.compareTo(other.priority);

@@ -7,12 +7,7 @@ class InMemoryTask extends Task {
   InMemoryTask(super.id, super.title, this._dataprovider);
 
   InMemoryTask.from(Task task, super.id, super.title, this._dataprovider) {
-    priority = task.priority;
-
-    status = task.status;
-
-    createdAt = task.createdAt;
-    deadline = task.deadline;
+    super.copy(task, this);
   }
 
   @override
