@@ -126,5 +126,16 @@ void main() {
       expect(db.tasks!.update("Bad id", Task("1", "1")), false);
       expect(db.tasks!.delete("Bad id"), false);
     });
+
+    test("Get all tasks", () {
+      db.tasks!.newTask("Task 1");
+      db.tasks!.newTask("Task 2");
+
+      List<Task> allTasks = db.tasks!.getAll();
+
+      expect(allTasks.length, 2);
+      expect(allTasks[0].title, "Task 1");
+      expect(allTasks[1].title, "Task 2");
+    });
   });
 }

@@ -24,6 +24,11 @@ class InMemoryTaskRepository implements TaskRepository {
   }
 
   @override
+  List<Task> getAll() {
+    return _tasks.entries.map((task) => task.value).toList();
+  }
+
+  @override
   bool delete(String id) {
     return _tasks.remove(id) != null;
   }
