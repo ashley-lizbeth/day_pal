@@ -1,3 +1,4 @@
+import 'package:flutter_todo/core/entities/priority.dart';
 import 'package:flutter_todo/core/entities/status.dart';
 
 class Task implements Comparable<Task> {
@@ -9,7 +10,7 @@ class Task implements Comparable<Task> {
   String groupID = "";
   List<String> tagsIDs = [];
 
-  int priority = 3;
+  int priorityValue = 3;
   String statusKey = StatusKey.doing.toString();
 
   DateTime createdAt = DateTime.now();
@@ -22,7 +23,7 @@ class Task implements Comparable<Task> {
     to.groupID = from.groupID;
     to.tagsIDs = from.tagsIDs;
 
-    to.priority = from.priority;
+    to.priorityValue = from.priorityValue;
     to.statusKey = from.statusKey;
 
     to.createdAt = from.createdAt;
@@ -40,7 +41,7 @@ class Task implements Comparable<Task> {
   }
 
   bool isHigherPriority(Task taskToCompare) {
-    return priority < taskToCompare.priority;
+    return priorityValue < taskToCompare.priorityValue;
   }
 
   bool save() {
@@ -56,7 +57,8 @@ class Task implements Comparable<Task> {
     var statusComparison = Status(statusKey).compareTo(Status(other.statusKey));
     if (statusComparison != 0) return statusComparison;
 
-    var priorityComparison = priority.compareTo(other.priority);
+    var priorityComparison =
+        Priority(priorityValue).compareTo(Priority(priorityValue));
     if (priorityComparison != 0) return priorityComparison;
 
     if (deadline == null) {
@@ -77,7 +79,7 @@ class Task implements Comparable<Task> {
 
   @override
   int get hashCode =>
-      Object.hash(id, title, priority, statusKey, createdAt, deadline);
+      Object.hash(id, title, priorityValue, statusKey, createdAt, deadline);
 
   @override
   bool operator ==(Object other) {
