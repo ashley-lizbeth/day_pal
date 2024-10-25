@@ -33,7 +33,11 @@ class Status implements Comparable<Status> {
 
     if (key == StatusKey.blocked) return ("Blocked", Icons.block);
 
-    return ("In progress", Icons.check_box_outline_blank);
+    if (key == StatusKey.doing) {
+      return ("In progress", Icons.check_box_outline_blank);
+    }
+
+    return ("", Icons.warning);
   }
 
   @override
