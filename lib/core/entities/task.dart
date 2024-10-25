@@ -1,3 +1,5 @@
+import 'package:flutter_todo/core/entities/status.dart';
+
 class Task implements Comparable<Task> {
   final String id;
 
@@ -8,7 +10,7 @@ class Task implements Comparable<Task> {
   List<String> tagsIDs = [];
 
   int priority = 3;
-  int status = 1;
+  String statusKey = StatusKey.doing.toString();
 
   DateTime createdAt = DateTime.now();
   DateTime? deadline;
@@ -21,7 +23,7 @@ class Task implements Comparable<Task> {
     to.tagsIDs = from.tagsIDs;
 
     to.priority = from.priority;
-    to.status = from.status;
+    to.statusKey = from.statusKey;
 
     to.createdAt = from.createdAt;
     to.deadline = from.deadline;
@@ -51,7 +53,7 @@ class Task implements Comparable<Task> {
 
   @override
   int compareTo(Task other) {
-    var statusComparison = status.compareTo(other.status);
+    var statusComparison = Status(statusKey).compareTo(Status(other.statusKey));
     if (statusComparison != 0) return statusComparison;
 
     var priorityComparison = priority.compareTo(other.priority);
@@ -67,12 +69,15 @@ class Task implements Comparable<Task> {
     if (deadline!.isAfter(other.deadline!)) return -1;
     if (deadline!.isBefore(other.deadline!)) return 1;
 
-    return title.compareTo(other.title);
+    var titleComparison = title.compareTo(other.title);
+    if (titleComparison != 0) return titleComparison;
+
+    return description.compareTo(other.description);
   }
 
   @override
   int get hashCode =>
-      Object.hash(id, title, priority, status, createdAt, deadline);
+      Object.hash(id, title, priority, statusKey, createdAt, deadline);
 
   @override
   bool operator ==(Object other) {
