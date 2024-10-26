@@ -1,39 +1,35 @@
 import 'package:flutter/material.dart';
 
-enum StatusKey { doing, blocked, completed }
-
-StatusKey _getStatusKeyFromString(String str) {
-  return StatusKey.values.firstWhere((e) => e.toString() == 'StatusKey.$str');
-}
-
 class Status implements Comparable<Status> {
-  late StatusKey key;
+  static const String doing = "doing",
+      blocked = "blocked",
+      completed = "completed";
+
+  String key;
 
   late String name;
   late IconData icon;
 
-  Status(String keyStr) {
-    key = _getStatusKeyFromString(keyStr);
-
+  Status(this.key) {
     var statusValues = _getPredeterminedValuesFromKey();
     name = statusValues.$1;
     icon = statusValues.$2;
   }
 
   int _getKeyValue() {
-    if (key == StatusKey.completed) return 3;
-    if (key == StatusKey.blocked) return 2;
+    if (key == completed) return 3;
+    if (key == blocked) return 2;
     return 1;
   }
 
   (String, IconData) _getPredeterminedValuesFromKey() {
-    if (key == StatusKey.completed) {
+    if (key == completed) {
       return ("Completed", Icons.check_box);
     }
 
-    if (key == StatusKey.blocked) return ("Blocked", Icons.block);
+    if (key == blocked) return ("Blocked", Icons.block);
 
-    if (key == StatusKey.doing) {
+    if (key == doing) {
       return ("In progress", Icons.check_box_outline_blank);
     }
 
