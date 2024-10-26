@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-typedef PriorityData = (String, IconData);
-
 class Priority implements Comparable<Priority> {
+  static const int highest = 1, high = 2, neutral = 3, low = 4, lowest = 5;
+
   int importance;
 
   late String name;
@@ -15,11 +15,13 @@ class Priority implements Comparable<Priority> {
   }
 
   (String, IconData) _getPredeterminedValuesFromImportance() {
-    if (importance == 1) return ("Urgent", Icons.keyboard_double_arrow_up);
-    if (importance == 2) return ("Important", Icons.keyboard_arrow_up);
-    if (importance == 3) return ("Neutral", Icons.minimize);
-    if (importance == 4) return ("Low priority", Icons.keyboard_arrow_down);
-    if (importance == 5) {
+    if (importance == highest) {
+      return ("Urgent", Icons.keyboard_double_arrow_up);
+    }
+    if (importance == high) return ("Important", Icons.keyboard_arrow_up);
+    if (importance == neutral) return ("Neutral", Icons.minimize);
+    if (importance == low) return ("Low priority", Icons.keyboard_arrow_down);
+    if (importance == lowest) {
       return ("Lowest priority", Icons.keyboard_double_arrow_down);
     }
 
