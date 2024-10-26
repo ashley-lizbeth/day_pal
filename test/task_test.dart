@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_todo/core/dataproviders/in-memory/database.dart';
+import 'package:flutter_todo/core/entities/priority.dart';
 import 'package:flutter_todo/core/entities/status.dart';
 
 import 'package:flutter_todo/core/entities/task.dart';
@@ -12,8 +13,8 @@ void main() {
 
       expect(task.id, "Some id");
       expect(task.title, "A sample task");
-      expect(task.priority, 3);
-      expect(task.status, Status.doing);
+      expect(task.priorityValue, Priority.neutral);
+      expect(task.statusKey, Status.doing);
       expect(task.deadline, null);
     });
 
@@ -35,20 +36,20 @@ void main() {
 
     test('Compare tasks with differing priority', () {
       final topTask = Task("1", "Important task");
-      topTask.priority = 1;
+      topTask.priorityValue = Priority.highest;
 
       final lowTask = Task("2", "Unimportant task");
-      lowTask.priority = 5;
+      lowTask.priorityValue = Priority.lowest;
 
       expect(topTask.isHigherPriority(lowTask), true);
     });
 
     test('Mark task as completed', () {
       final task = Task("0", "New task");
-      expect(task.status, Status.doing);
+      expect(task.statusKey, Status.doing);
 
-      task.status = Status.completed;
-      expect(task.status, Status.completed);
+      task.statusKey = Status.completed;
+      expect(task.statusKey, Status.completed);
     });
   });
 
@@ -91,7 +92,7 @@ void main() {
       var originalTask = db.tasks!.newTask("Task 1");
 
       originalTask.title = "Updated title";
-      originalTask.priority = 5;
+      originalTask.priorityValue = Priority.low;
 
       var taskBeforeSave = db.tasks!.get(originalTask.id);
       assert(taskBeforeSave != originalTask);
