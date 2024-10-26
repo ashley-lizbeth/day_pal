@@ -11,7 +11,14 @@ class Task implements Comparable<Task> {
   List<String> tagsIDs = [];
 
   int priorityValue = 3;
+  Priority priority() {
+    return Priority(priorityValue);
+  }
+
   String statusKey = Status.doing;
+  Status status() {
+    return Status(statusKey);
+  }
 
   DateTime createdAt = DateTime.now();
   DateTime? deadline;
