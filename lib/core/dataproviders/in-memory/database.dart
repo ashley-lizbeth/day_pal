@@ -1,4 +1,4 @@
-import 'package:flutter_todo/core/dataproviders/in-memory/InMemoryTask/repository.dart';
+import 'package:flutter_todo/core/dataproviders/in-memory/in_memory_task_repository.dart';
 import 'package:flutter_todo/core/repositories/database_wrapper.dart';
 import 'package:flutter_todo/core/repositories/task_repository.dart';
 
