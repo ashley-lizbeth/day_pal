@@ -4,16 +4,16 @@ import 'package:flutter_todo/core/repositories/task_repository.dart';
 
 class InMemoryDatabase implements Database {
   @override
-  TaskRepository? tasks;
+  late TaskRepository tasks = InMemoryTaskRepository();
 
   @override
   Future<void> open() async {
-    tasks = InMemoryTaskRepository();
+    tasks.open();
   }
 
   @override
   Future<void> close() async {
-    tasks = null;
+    tasks.close();
   }
 
   InMemoryDatabase();

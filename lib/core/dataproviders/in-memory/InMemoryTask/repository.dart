@@ -1,26 +1,42 @@
+import 'dart:async';
+
 import 'package:cuid2/cuid2.dart';
-import 'package:flutter_todo/core/dataproviders/in-memory/InMemoryTask/entity.dart';
 import 'package:flutter_todo/core/entities/task.dart';
 import 'package:flutter_todo/core/repositories/task_repository.dart';
 
 class InMemoryTaskRepository implements TaskRepository {
   final _tasks = <String, Task>{};
 
+  late StreamController _repoUpdateController;
+
+  @override
+  Stream get repositoryUpdate => _repoUpdateController.stream;
+
+  @override
+  void open() {
+    _repoUpdateController = StreamController.broadcast();
+  }
+
+  @override
+  void close() {
+    _tasks.clear();
+    _repoUpdateController.close();
+  }
+
   @override
   Task newTask(String title) {
     final String id = cuid();
 
-    var task = InMemoryTask(id, title, this);
-    _tasks[task.id] = task.getSelf();
+    var task = Task(id, title);
+
+    _repoUpdateController.add(task.id);
 
     return task;
   }
 
   @override
   Task? get(String id) {
-    var task = _tasks[id];
-    if (task == null) return null;
-    return InMemoryTask.from(task, task.id, task.title, this);
+    return _tasks[id];
   }
 
   @override
