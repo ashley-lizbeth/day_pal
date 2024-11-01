@@ -25,21 +25,21 @@ class Task implements Comparable<Task> {
 
   Task(this.id, this.title);
 
-  void copy(Task from, Task to) {
-    to.description = from.description;
-    to.groupID = from.groupID;
-    to.tagsIDs = from.tagsIDs;
+  void copyFrom(Task from) {
+    description = from.description;
+    groupID = from.groupID;
+    tagsIDs = from.tagsIDs;
 
-    to.priorityValue = from.priorityValue;
-    to.statusKey = from.statusKey;
+    priorityValue = from.priorityValue;
+    statusKey = from.statusKey;
 
-    to.createdAt = from.createdAt;
-    to.deadline = from.deadline;
+    createdAt = from.createdAt;
+    deadline = from.deadline;
   }
 
   Task getSelf() {
     Task copyOfSelf = Task(id, title);
-    copy(this, copyOfSelf);
+    copyOfSelf.copyFrom(this);
     return copyOfSelf;
   }
 
