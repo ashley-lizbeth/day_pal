@@ -24,7 +24,7 @@ class InMemoryTaskRepository implements TaskRepository {
   }
 
   @override
-  Task newTask(String title) {
+  String newTask() {
     final String id = cuid();
 
     var task = Task(id);
@@ -32,12 +32,14 @@ class InMemoryTaskRepository implements TaskRepository {
 
     _repoUpdateController.add(task.id);
 
-    return task;
+    return id;
   }
 
   @override
   Task? get(String id) {
-    return _tasks[id];
+    var task = _tasks[id];
+    if (task == null) return null;
+    return task.getSelf();
   }
 
   @override
@@ -51,12 +53,13 @@ class InMemoryTaskRepository implements TaskRepository {
   }
 
   @override
-  bool update(String id, Task task) {
-    if (!_tasks.containsKey(id)) {
+  bool update(Task task) {
+    if (!_tasks.containsKey(task.id)) {
       return false;
     }
 
-    _tasks[id] = task;
+    _tasks[task.id] = task;
+
     return true;
   }
 }

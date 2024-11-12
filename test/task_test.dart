@@ -69,34 +69,39 @@ void main() {
     });
 
     test("Insert task into database", () {
-      var newTask = db.tasks.newTask("A new task");
-      expect(newTask.title, "A new task");
+      var newTaskID = db.tasks.newTask();
+      assert(db.tasks.get(newTaskID) != null);
     });
 
     test("Insert two tasks with different ids", () {
-      var task1 = db.tasks.newTask("Task 1");
-      var task2 = db.tasks.newTask("Task 2");
+      var id1 = db.tasks.newTask();
+      var id2 = db.tasks.newTask();
 
-      expect(task1.id != task2.id, true);
+      assert(id1 != id2);
     });
 
     test("Retrieve task from database", () {
-      var createdTask = db.tasks.newTask("Task 1");
+      var id = db.tasks.newTask();
 
-      var retrievedTask = db.tasks.get(createdTask.id);
-      expect(retrievedTask, createdTask);
+      var retrievedTask = db.tasks.get(id);
+
+      assert(retrievedTask != null);
+      expect(retrievedTask!.id, id);
     });
 
     test("Update task in database", () {
-      var originalTask = db.tasks.newTask("Task 1");
+      var taskID = db.tasks.newTask();
+      Task? originalTask = db.tasks.get(taskID);
 
-      originalTask.title = "Updated title";
+      assert(originalTask != null);
+
+      originalTask!.title = "Updated title";
       originalTask.priorityValue = Priority.low;
 
-      var taskBeforeSave = db.tasks.get(originalTask.id);
+      var taskBeforeSave = db.tasks.get(taskID);
       assert(taskBeforeSave != originalTask);
 
-      var didSave = originalTask.save();
+      var didSave = db.tasks.update(originalTask);
       assert(didSave);
 
       var retrievedTask = db.tasks.get(originalTask.id);
@@ -104,18 +109,11 @@ void main() {
     });
 
     test("Delete created task", () {
-      var task = db.tasks.newTask("Task to delete");
-      var didDelete = db.tasks.delete(task.id);
+      var id = db.tasks.newTask();
+      var didDelete = db.tasks.delete(id);
       assert(didDelete);
 
-      var retrievedTask = db.tasks.get(task.id);
-      expect(retrievedTask, null);
-
-      task = db.tasks.newTask("Another task to delete");
-      didDelete = task.delete();
-      assert(didDelete);
-
-      retrievedTask = db.tasks.get(task.id);
+      var retrievedTask = db.tasks.get(id);
       expect(retrievedTask, null);
     });
 
@@ -123,19 +121,19 @@ void main() {
       var retrievedTask = db.tasks.get("Bad id");
       expect(retrievedTask, null);
 
-      expect(db.tasks.update("Bad id", Task("1", "1")), false);
+      expect(db.tasks.update(Task("Bad id")), false);
       expect(db.tasks.delete("Bad id"), false);
     });
 
     test("Get all tasks", () {
-      db.tasks.newTask("Task 1");
-      db.tasks.newTask("Task 2");
+      String id1 = db.tasks.newTask();
+      String id2 = db.tasks.newTask();
 
       List<Task> allTasks = db.tasks.getAll();
 
       expect(allTasks.length, 2);
-      expect(allTasks[0].title, "Task 1");
-      expect(allTasks[1].title, "Task 2");
+      expect(allTasks[0].id, id1);
+      expect(allTasks[1].id, id2);
     });
   });
 }

@@ -7,9 +7,10 @@ abstract class TaskRepository {
   void open();
   void close();
 
-  Task newTask(String title);
+  String newTask();
   Task? get(String id);
   List<Task> getAll();
   bool delete(String id);
-  bool update(String id, Task task);
+  bool update(Task task);
+}
 }

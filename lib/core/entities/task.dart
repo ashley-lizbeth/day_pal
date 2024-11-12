@@ -52,14 +52,6 @@ class Task implements Comparable<Task> {
     return priorityValue < taskToCompare.priorityValue;
   }
 
-  bool save() {
-    return false;
-  }
-
-  bool delete() {
-    return false;
-  }
-
   @override
   int compareTo(Task other) {
     var statusComparison = Status(statusKey).compareTo(Status(other.statusKey));
