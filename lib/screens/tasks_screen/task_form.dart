@@ -25,6 +25,16 @@ class _TaskFormState extends State<TaskForm> {
   Widget build(BuildContext context) {
     final db = InheritedDatabase.of(context)!.db;
 
+    void saveTask() {
+      String id =
+          widget.baseTask != null ? widget.baseTask!.id : db.tasks.newTask();
+
+      Task taskToSave = Task(id);
+
+      controllers.copyToTask(taskToSave);
+      db.tasks.update(taskToSave);
+    }
+
     if (widget.baseTask != null) {
       controllers.fromTask(widget.baseTask!);
     }
@@ -94,15 +104,7 @@ class _TaskFormState extends State<TaskForm> {
                 ElevatedButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        String id = widget.baseTask != null
-                            ? widget.baseTask!.id
-                            : db.tasks.newTask();
-
-                        Task taskToSave = Task(id);
-
-                        controllers.copyToTask(taskToSave);
-                        db.tasks.update(taskToSave);
-
+                        saveTask();
                         Navigator.pop(context);
                       }
                     },
