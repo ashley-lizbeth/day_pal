@@ -9,17 +9,17 @@ import 'package:flutter_todo/core/repositories/database_wrapper.dart';
 void main() {
   group("Task entity testing", () {
     test('Create new task', () {
-      final task = Task("Some id", "A sample task");
+      final task = Task("A sample task");
 
-      expect(task.id, "Some id");
-      expect(task.title, "A sample task");
+      expect(task.id, "A sample task");
+      expect(task.title, "");
       expect(task.priorityValue, Priority.neutral);
       expect(task.statusKey, Status.doing);
       expect(task.deadline, null);
     });
 
     test('Create task with expired deadline', () {
-      final task = Task("0", "A sample task");
+      final task = Task("A sample task");
       task.createdAt = DateTime.utc(2024, 12, 31);
       task.deadline = DateTime.utc(2020, 01, 01);
 
@@ -28,24 +28,24 @@ void main() {
     });
 
     test('Create task with no deadline', () {
-      final task = Task("0", "Another task");
+      final task = Task("Another task");
 
       expect(task.deadline, null);
       expect(task.hasExpired(), null);
     });
 
     test('Compare tasks with differing priority', () {
-      final topTask = Task("1", "Important task");
+      final topTask = Task("Important task");
       topTask.priorityValue = Priority.highest;
 
-      final lowTask = Task("2", "Unimportant task");
+      final lowTask = Task("Unimportant task");
       lowTask.priorityValue = Priority.lowest;
 
       expect(topTask.isHigherPriority(lowTask), true);
     });
 
     test('Mark task as completed', () {
-      final task = Task("0", "New task");
+      final task = Task("0");
       expect(task.statusKey, Status.doing);
 
       task.statusKey = Status.completed;

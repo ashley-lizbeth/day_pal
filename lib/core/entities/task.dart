@@ -4,7 +4,7 @@ import 'package:flutter_todo/core/entities/status.dart';
 class Task implements Comparable<Task> {
   final String id;
 
-  String title;
+  String title = "";
 
   String description = "";
   String groupID = "";
@@ -23,9 +23,10 @@ class Task implements Comparable<Task> {
   DateTime createdAt = DateTime.now();
   DateTime? deadline;
 
-  Task(this.id, this.title);
+  Task(this.id);
 
   void copyFrom(Task from) {
+    title = from.title;
     description = from.description;
     groupID = from.groupID;
     tagsIDs = from.tagsIDs;
@@ -38,7 +39,7 @@ class Task implements Comparable<Task> {
   }
 
   Task getSelf() {
-    Task copyOfSelf = Task(id, title);
+    Task copyOfSelf = Task(id);
     copyOfSelf.copyFrom(this);
     return copyOfSelf;
   }

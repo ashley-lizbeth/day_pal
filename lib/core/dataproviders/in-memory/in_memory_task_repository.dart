@@ -27,7 +27,8 @@ class InMemoryTaskRepository implements TaskRepository {
   Task newTask(String title) {
     final String id = cuid();
 
-    var task = Task(id, title);
+    var task = Task(id);
+    _tasks[id] = task.getSelf();
 
     _repoUpdateController.add(task.id);
 
