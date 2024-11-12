@@ -1,3 +1,4 @@
+import 'package:day_pal/core/utils/convert_datetime_to_text.dart';
 import 'package:day_pal/database_context.dart';
 import 'package:day_pal/screens/tasks_screen/task_form.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,9 @@ class _TaskItemState extends State<TaskItem> {
 
     Status status = widget.task.status();
     Priority priority = widget.task.priority();
-    String? deadline = widget.task.deadline?.toString();
+    String deadline = widget.task.deadline != null
+        ? convertDateTimeToText(widget.task.deadline!)
+        : "No deadline";
 
     return Column(
       children: [
@@ -55,21 +58,18 @@ class _TaskItemState extends State<TaskItem> {
                               )));
                 },
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Builder(builder: (context) {
-                      if (deadline != null) {
-                        return Row(children: [
-                          Icon(Icons.calendar_month),
-                          Text(deadline)
-                        ]);
-                      }
-
-                      return Text("No deadline");
-                    }),
+                    Row(
+                      children: [Icon(Icons.calendar_month), Text(deadline)],
+                    ),
                     Row(
                       children: [priority.icon, Text(widget.task.title)],
                     ),
-                    Text(widget.task.description),
+                    Padding(
+                      padding: EdgeInsets.only(left: 23),
+                      child: Text(widget.task.description),
+                    )
                   ],
                 ),
               ),
