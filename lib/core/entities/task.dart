@@ -62,14 +62,14 @@ class Task implements Comparable<Task> {
     if (priorityComparison != 0) return priorityComparison;
 
     if (deadline == null) {
-      if (other.deadline != null) return -1;
+      if (other.deadline != null) return 1;
       return 0;
     }
 
-    if (other.deadline == null) return 1;
+    if (other.deadline == null) return -1;
 
-    if (deadline!.isAfter(other.deadline!)) return -1;
-    if (deadline!.isBefore(other.deadline!)) return 1;
+    if (deadline!.isAfter(other.deadline!)) return 1;
+    if (deadline!.isBefore(other.deadline!)) return -1;
 
     var titleComparison = title.compareTo(other.title);
     if (titleComparison != 0) return titleComparison;

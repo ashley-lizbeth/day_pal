@@ -19,7 +19,7 @@ class Priority implements Comparable<Priority> {
       return ("Urgent", Icons.keyboard_double_arrow_up);
     }
     if (importance == high) return ("Important", Icons.keyboard_arrow_up);
-    if (importance == neutral) return ("Neutral", Icons.minimize);
+    if (importance == neutral) return ("Neutral", Icons.remove);
     if (importance == low) return ("Low priority", Icons.keyboard_arrow_down);
     if (importance == lowest) {
       return ("Lowest priority", Icons.keyboard_double_arrow_down);
@@ -31,6 +31,6 @@ class Priority implements Comparable<Priority> {
   @override
   int compareTo(Priority other) {
     if (other.importance == importance) return 0;
-    return importance < other.importance ? 1 : -1;
+    return importance < other.importance ? -1 : 1;
   }
 }

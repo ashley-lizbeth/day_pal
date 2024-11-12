@@ -39,6 +39,6 @@ class Status implements Comparable<Status> {
   @override
   int compareTo(Status other) {
     if (key == other.key) return 0;
-    return _getKeyValue() < other._getKeyValue() ? 1 : -1;
+    return _getKeyValue() < other._getKeyValue() ? -1 : 1;
   }
 }
