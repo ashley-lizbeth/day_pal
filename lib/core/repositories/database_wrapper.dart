@@ -1,4 +1,4 @@
-import 'package:flutter_todo/core/repositories/task_repository.dart';
+import 'package:day_pal/core/repositories/task_repository.dart';
 
 abstract class Database {
   late TaskRepository tasks;

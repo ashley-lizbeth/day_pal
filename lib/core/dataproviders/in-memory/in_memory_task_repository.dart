@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:cuid2/cuid2.dart';
-import 'package:flutter_todo/core/entities/task.dart';
-import 'package:flutter_todo/core/repositories/task_repository.dart';
+import 'package:day_pal/core/entities/task.dart';
+import 'package:day_pal/core/repositories/task_repository.dart';
 
 class InMemoryTaskRepository implements TaskRepository {
   final _tasks = <String, Task>{};

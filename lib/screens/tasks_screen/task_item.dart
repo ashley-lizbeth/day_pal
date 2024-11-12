@@ -1,9 +1,9 @@
-import 'package:flutter_todo/database_context.dart';
-import 'package:flutter_todo/screens/tasks_screen/task_form.dart';
+import 'package:day_pal/database_context.dart';
+import 'package:day_pal/screens/tasks_screen/task_form.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_todo/core/entities/priority.dart';
-import 'package:flutter_todo/core/entities/status.dart';
-import 'package:flutter_todo/core/entities/task.dart';
+import 'package:day_pal/core/entities/priority.dart';
+import 'package:day_pal/core/entities/status.dart';
+import 'package:day_pal/core/entities/task.dart';
 
 class TaskItem extends StatefulWidget {
   final Task task;

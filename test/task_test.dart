@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_todo/core/dataproviders/in-memory/database.dart';
-import 'package:flutter_todo/core/entities/priority.dart';
-import 'package:flutter_todo/core/entities/status.dart';
+import 'package:day_pal/core/dataproviders/in-memory/database.dart';
+import 'package:day_pal/core/entities/priority.dart';
+import 'package:day_pal/core/entities/status.dart';
 
-import 'package:flutter_todo/core/entities/task.dart';
-import 'package:flutter_todo/core/repositories/database_wrapper.dart';
+import 'package:day_pal/core/entities/task.dart';
+import 'package:day_pal/core/repositories/database_wrapper.dart';
 
 void main() {
   group("Task entity testing", () {

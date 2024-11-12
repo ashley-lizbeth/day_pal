@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_todo/core/dataproviders/in-memory/database.dart';
-import 'package:flutter_todo/core/repositories/database_wrapper.dart';
+import 'package:day_pal/core/dataproviders/in-memory/database.dart';
+import 'package:day_pal/core/repositories/database_wrapper.dart';
 
 class DatabaseContext extends StatefulWidget {
   static InheritedDatabase? of(BuildContext context) =>

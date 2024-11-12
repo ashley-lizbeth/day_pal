@@ -1,5 +1,5 @@
-import 'package:flutter_todo/core/entities/priority.dart';
-import 'package:flutter_todo/core/entities/status.dart';
+import 'package:day_pal/core/entities/priority.dart';
+import 'package:day_pal/core/entities/status.dart';
 
 class Task implements Comparable<Task> {
   final String id;

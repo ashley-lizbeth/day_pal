@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter_todo/core/entities/task.dart';
+import 'package:day_pal/core/entities/task.dart';
 
 abstract class TaskRepository {
   Stream<TaskAction> get repositoryUpdate;

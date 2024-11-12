@@ -1,5 +1,5 @@
-import 'package:flutter_todo/core/entities/task.dart';
-import 'package:flutter_todo/database_context.dart';
+import 'package:day_pal/core/entities/task.dart';
+import 'package:day_pal/database_context.dart';
 import 'package:flutter/material.dart';
 
 class TaskForm extends StatefulWidget {
