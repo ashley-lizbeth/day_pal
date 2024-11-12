@@ -6,7 +6,7 @@ class Priority implements Comparable<Priority> {
   int importance;
 
   late String name;
-  late IconData icon;
+  late Icon icon;
 
   Priority(this.importance) {
     var values = _getPredeterminedValuesFromImportance();
@@ -14,18 +14,60 @@ class Priority implements Comparable<Priority> {
     icon = values.$2;
   }
 
-  (String, IconData) _getPredeterminedValuesFromImportance() {
+  (String, Icon) _getPredeterminedValuesFromImportance() {
     if (importance == highest) {
-      return ("Urgent", Icons.keyboard_double_arrow_up);
+      return (
+        "Urgent",
+        Icon(
+          Icons.keyboard_double_arrow_up,
+          color: Colors.red,
+        )
+      );
     }
-    if (importance == high) return ("Important", Icons.keyboard_arrow_up);
-    if (importance == neutral) return ("Neutral", Icons.remove);
-    if (importance == low) return ("Low priority", Icons.keyboard_arrow_down);
+    if (importance == high) {
+      return (
+        "Important",
+        Icon(
+          Icons.keyboard_arrow_up,
+          color: Colors.orange,
+        )
+      );
+    }
+    if (importance == neutral) {
+      return (
+        "Neutral",
+        Icon(
+          Icons.remove,
+          color: Colors.grey[800],
+        )
+      );
+    }
+    if (importance == low) {
+      return (
+        "Low priority",
+        Icon(
+          Icons.keyboard_arrow_down,
+          color: Colors.lightBlue,
+        )
+      );
+    }
     if (importance == lowest) {
-      return ("Lowest priority", Icons.keyboard_double_arrow_down);
+      return (
+        "Lowest priority",
+        Icon(
+          Icons.keyboard_double_arrow_down,
+          color: Colors.blue[800],
+        )
+      );
     }
 
-    return ("", Icons.warning);
+    return (
+      "",
+      Icon(
+        Icons.warning,
+        color: Colors.yellow,
+      )
+    );
   }
 
   @override

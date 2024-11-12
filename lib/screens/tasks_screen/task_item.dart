@@ -67,7 +67,7 @@ class _TaskItemState extends State<TaskItem> {
                       return Text("No deadline");
                     }),
                     Row(
-                      children: [Icon(priority.icon), Text(widget.task.title)],
+                      children: [priority.icon, Text(widget.task.title)],
                     ),
                     Text(widget.task.description),
                   ],
