@@ -7,10 +7,10 @@ import 'package:flutter_todo/core/repositories/task_repository.dart';
 class InMemoryTaskRepository implements TaskRepository {
   final _tasks = <String, Task>{};
 
-  late StreamController _repoUpdateController;
+  late StreamController<TaskAction> _repoUpdateController;
 
   @override
-  Stream get repositoryUpdate => _repoUpdateController.stream;
+  Stream<TaskAction> get repositoryUpdate => _repoUpdateController.stream;
 
   @override
   void open() {
@@ -30,7 +30,7 @@ class InMemoryTaskRepository implements TaskRepository {
     var task = Task(id);
     _tasks[id] = task.getSelf();
 
-    _repoUpdateController.add(task.id);
+    _repoUpdateController.add(TaskAction(TaskActionType.added, id));
 
     return id;
   }
@@ -60,6 +60,7 @@ class InMemoryTaskRepository implements TaskRepository {
 
     _tasks[task.id] = task;
 
+    _repoUpdateController.add(TaskAction(TaskActionType.updated, task.id));
     return true;
   }
 }

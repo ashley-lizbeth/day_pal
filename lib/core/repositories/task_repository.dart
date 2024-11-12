@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter_todo/core/entities/task.dart';
 
 abstract class TaskRepository {
-  Stream get repositoryUpdate;
+  Stream<TaskAction> get repositoryUpdate;
   void open();
   void close();
 
@@ -13,4 +13,12 @@ abstract class TaskRepository {
   bool delete(String id);
   bool update(Task task);
 }
+
+enum TaskActionType { added, updated, deleted }
+
+class TaskAction {
+  TaskActionType type;
+  String id;
+
+  TaskAction(this.type, this.id);
 }
