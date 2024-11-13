@@ -5,10 +5,20 @@ class Status implements Comparable<Status> {
       blocked = "blocked",
       completed = "completed";
 
+  static List<Status> asList() {
+    List<Status> statusList = [
+      Status(doing),
+      Status(blocked),
+      Status(completed)
+    ];
+    statusList.sort();
+    return statusList;
+  }
+
   String key;
 
   late String name;
-  late IconData icon;
+  late Icon icon;
 
   Status(this.key) {
     var statusValues = _getPredeterminedValuesFromKey();
@@ -22,23 +32,45 @@ class Status implements Comparable<Status> {
     return 1;
   }
 
-  (String, IconData) _getPredeterminedValuesFromKey() {
+  (String, Icon) _getPredeterminedValuesFromKey() {
     if (key == completed) {
-      return ("Completed", Icons.check_box);
+      return (
+        "Completed",
+        Icon(
+          Icons.check_box,
+          color: Colors.green,
+        )
+      );
     }
 
-    if (key == blocked) return ("Blocked", Icons.block);
+    if (key == blocked) {
+      return (
+        "Blocked",
+        Icon(
+          Icons.block,
+          color: Colors.red[800],
+        )
+      );
+    }
 
     if (key == doing) {
-      return ("In progress", Icons.check_box_outline_blank);
+      return ("In progress", Icon(Icons.check_box_outline_blank));
     }
 
-    return ("", Icons.warning);
+    return ("", Icon(Icons.warning));
   }
 
   @override
   int compareTo(Status other) {
     if (key == other.key) return 0;
     return _getKeyValue() < other._getKeyValue() ? -1 : 1;
+  }
+
+  @override
+  int get hashCode => Object.hash(key, name);
+
+  @override
+  bool operator ==(Object other) {
+    return other is Status && other.hashCode == hashCode;
   }
 }

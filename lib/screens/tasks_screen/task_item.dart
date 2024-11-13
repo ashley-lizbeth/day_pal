@@ -45,7 +45,7 @@ class _TaskItemState extends State<TaskItem> {
 
                       db.tasks.update(widget.task);
                     },
-                    child: Icon(status.icon))),
+                    child: status.icon)),
             Expanded(
               flex: 4,
               child: GestureDetector(
