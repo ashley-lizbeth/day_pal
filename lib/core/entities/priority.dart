@@ -3,6 +3,14 @@ import 'package:flutter/material.dart';
 class Priority implements Comparable<Priority> {
   static const int highest = 1, high = 2, neutral = 3, low = 4, lowest = 5;
 
+  static List<Priority> asList() {
+    List<Priority> priorities = [];
+    for (int i = 1; i <= 5; i++) {
+      priorities.add(Priority(i));
+    }
+    return priorities;
+  }
+
   int importance;
 
   late String name;
@@ -74,5 +82,13 @@ class Priority implements Comparable<Priority> {
   int compareTo(Priority other) {
     if (other.importance == importance) return 0;
     return importance < other.importance ? -1 : 1;
+  }
+
+  @override
+  int get hashCode => Object.hash(importance, name);
+
+  @override
+  bool operator ==(Object other) {
+    return other is Priority && other.hashCode == hashCode;
   }
 }
