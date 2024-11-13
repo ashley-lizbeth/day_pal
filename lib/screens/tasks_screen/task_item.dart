@@ -64,7 +64,6 @@ class _TaskItemState extends State<TaskItem> {
                       children: [
                         Icon(
                           Icons.calendar_month,
-                          color: Colors.red[800],
                         ),
                         Text(deadline)
                       ],
