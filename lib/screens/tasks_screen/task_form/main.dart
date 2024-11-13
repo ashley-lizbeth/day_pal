@@ -132,5 +132,6 @@ class FormControllers {
     description.dispose();
     deadline.dispose();
     priority.dispose();
+    status.dispose();
   }
 }
