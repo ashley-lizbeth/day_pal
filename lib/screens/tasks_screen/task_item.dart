@@ -1,6 +1,6 @@
 import 'package:day_pal/core/utils/convert_datetime_to_text.dart';
 import 'package:day_pal/database_context.dart';
-import 'package:day_pal/screens/tasks_screen/task_form.dart';
+import 'package:day_pal/screens/tasks_screen/task_form/main.dart';
 import 'package:flutter/material.dart';
 import 'package:day_pal/core/entities/priority.dart';
 import 'package:day_pal/core/entities/status.dart';

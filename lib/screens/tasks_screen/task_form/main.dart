@@ -1,6 +1,8 @@
 import 'package:day_pal/core/entities/task.dart';
 import 'package:day_pal/database_context.dart';
-import 'package:day_pal/screens/tasks_screen/deadline_form.dart';
+import 'package:day_pal/screens/tasks_screen/task_form/deadline_form.dart';
+import 'package:day_pal/screens/tasks_screen/task_form/description_form.dart';
+import 'package:day_pal/screens/tasks_screen/task_form/title_form.dart';
 import 'package:flutter/material.dart';
 
 class TaskForm extends StatefulWidget {
@@ -62,43 +64,12 @@ class _TaskFormState extends State<TaskForm> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Title*",
-                          style: TextStyle(fontWeight: FontWeight.bold),
-                        ),
-                        TextFormField(
-                          controller: controllers.title,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(),
-                              hintText: "Untitled"),
-                          validator: (title) {
-                            if (title == null || title.isEmpty) {
-                              return "Title can't be empty";
-                            }
-                            return null;
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: TitleForm(controller: controllers.title)),
                   Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Description"),
-                        TextFormField(
-                          controller: controllers.description,
-                          decoration: InputDecoration(
-                              border: OutlineInputBorder(), hintText: ""),
-                        ),
-                      ],
-                    ),
-                  ),
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child:
+                          DescriptionForm(controller: controllers.description)),
                   Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: DeadlineForm(controller: controllers.deadline)),
