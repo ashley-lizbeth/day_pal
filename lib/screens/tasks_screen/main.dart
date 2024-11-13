@@ -1,10 +1,10 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 
 import 'package:day_pal/core/repositories/task_repository.dart';
+import 'package:day_pal/core/entities/task.dart';
 import 'package:day_pal/database_context.dart';
 import 'package:day_pal/screens/tasks_screen/task_form/main.dart';
-import 'package:flutter/material.dart';
-import 'package:day_pal/core/entities/task.dart';
 import 'package:day_pal/screens/tasks_screen/task_item.dart';
 
 class TasksScreen extends StatefulWidget {
