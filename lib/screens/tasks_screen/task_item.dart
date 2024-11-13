@@ -61,7 +61,13 @@ class _TaskItemState extends State<TaskItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      children: [Icon(Icons.calendar_month), Text(deadline)],
+                      children: [
+                        Icon(
+                          Icons.calendar_month,
+                          color: Colors.red[800],
+                        ),
+                        Text(deadline)
+                      ],
                     ),
                     Row(
                       children: [priority.icon, Text(widget.task.title)],
