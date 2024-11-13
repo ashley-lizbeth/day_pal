@@ -2,6 +2,7 @@ import 'package:day_pal/core/entities/task.dart';
 import 'package:day_pal/database_context.dart';
 import 'package:day_pal/screens/tasks_screen/task_form/deadline_form.dart';
 import 'package:day_pal/screens/tasks_screen/task_form/description_form.dart';
+import 'package:day_pal/screens/tasks_screen/task_form/priority_form.dart';
 import 'package:day_pal/screens/tasks_screen/task_form/title_form.dart';
 import 'package:flutter/material.dart';
 
@@ -73,6 +74,11 @@ class _TaskFormState extends State<TaskForm> {
                   Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
                       child: DeadlineForm(controller: controllers.deadline)),
+                  Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: PriorityForm(
+                        controller: controllers.priority,
+                      )),
                   ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
@@ -93,6 +99,7 @@ class FormControllers {
   final title = TextEditingController();
   final description = TextEditingController();
   final deadline = DeadlineController();
+  final priority = PriorityController();
 
   void fromTask(Task task) {
     title.text = task.title;
@@ -101,17 +108,20 @@ class FormControllers {
       deadline.toggleEnabled();
       deadline.setDate(task.deadline!);
     }
+    priority.setValue(task.priority());
   }
 
   void copyToTask(Task task) {
     task.title = title.text;
     task.description = description.text;
     task.deadline = deadline.enabled ? deadline.date : null;
+    task.priorityValue = priority.value.importance;
   }
 
   void dispose() {
     title.dispose();
     description.dispose();
     deadline.dispose();
+    priority.dispose();
   }
 }
