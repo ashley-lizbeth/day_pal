@@ -39,14 +39,15 @@ class _TaskFormState extends State<TaskForm> {
   Widget build(BuildContext context) {
     final db = InheritedDatabase.of(context)!.db;
 
-    void saveTask() {
-      String id =
-          widget.baseTask != null ? widget.baseTask!.id : db.tasks.newTask();
+    Future<void> saveTask() async {
+      String id = widget.baseTask != null
+          ? widget.baseTask!.id
+          : await db.tasks.newTask();
 
       Task taskToSave = Task(id);
 
       controllers.copyToTask(taskToSave);
-      db.tasks.update(taskToSave);
+      await db.tasks.update(taskToSave);
     }
 
     String widgetTitle = widget.baseTask == null ? "New task" : "Edit task";
@@ -86,10 +87,10 @@ class _TaskFormState extends State<TaskForm> {
                         controller: controllers.status,
                       )),
                   ElevatedButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_formKey.currentState!.validate()) {
-                          saveTask();
-                          Navigator.pop(context);
+                          await saveTask();
+                          if (context.mounted) Navigator.pop(context);
                         }
                       },
                       child: Text(submitButtonMessage))

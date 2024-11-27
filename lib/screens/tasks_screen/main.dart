@@ -47,16 +47,17 @@ class _TasksScreenState extends State<TasksScreen> {
   @override
   Widget build(BuildContext context) {
     final db = InheritedDatabase.of(context)!.db;
-    tasks = db.tasks.getAll();
-    tasks.sort();
+    db.tasks.getAll().then((taskList) => setState(() {
+          tasks = taskList;
+        }));
 
-    dbSubscription = db.tasks.repositoryUpdate.listen((event) {
+    dbSubscription = db.tasks.repositoryUpdate.listen((event) async {
       if (event.type == TaskActionType.deleted) {
         removeTask(event.id);
         return;
       }
 
-      var task = db.tasks.get(event.id);
+      var task = await db.tasks.get(event.id);
 
       if (task != null) {
         if (event.type == TaskActionType.added) {

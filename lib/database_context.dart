@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:day_pal/core/dataproviders/in-memory/database.dart';
+import 'package:day_pal/core/dataproviders/in-memory/in_memory_database.dart';
 import 'package:day_pal/core/repositories/database_wrapper.dart';
 
 class DatabaseContext extends StatefulWidget {
@@ -15,9 +15,9 @@ class DatabaseContext extends StatefulWidget {
 }
 
 class _DatabaseContextState extends State<DatabaseContext> {
-  Database db = InMemoryDatabase();
+  DatabaseWrapper db = InMemoryDatabase();
 
-  void onDatabaseChange(Database newDb) {
+  void onDatabaseChange(DatabaseWrapper newDb) {
     setState(() async {
       await db.close();
       db = newDb;
@@ -44,8 +44,8 @@ class _DatabaseContextState extends State<DatabaseContext> {
 }
 
 class InheritedDatabase extends InheritedWidget {
-  final Database db;
-  final ValueChanged<Database> onDatabaseChange;
+  final DatabaseWrapper db;
+  final ValueChanged<DatabaseWrapper> onDatabaseChange;
 
   const InheritedDatabase({
     super.key,

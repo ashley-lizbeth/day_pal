@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:day_pal/core/dataproviders/in-memory/database.dart';
+import 'package:day_pal/core/dataproviders/in-memory/in_memory_database.dart';
 import 'package:day_pal/core/entities/priority.dart';
 import 'package:day_pal/core/entities/status.dart';
 
@@ -68,68 +68,69 @@ void main() {
       // Expand when adding new repositories
     });
 
-    test("Insert task into database", () {
-      var newTaskID = db.tasks.newTask();
-      assert(db.tasks.get(newTaskID) != null);
+    test("Insert task into database", () async {
+      var newTaskID = await db.tasks.newTask();
+      var createdTask = await db.tasks.get(newTaskID);
+      assert(createdTask != null);
     });
 
-    test("Insert two tasks with different ids", () {
-      var id1 = db.tasks.newTask();
-      var id2 = db.tasks.newTask();
+    test("Insert two tasks with different ids", () async {
+      var id1 = await db.tasks.newTask();
+      var id2 = await db.tasks.newTask();
 
       assert(id1 != id2);
     });
 
-    test("Retrieve task from database", () {
-      var id = db.tasks.newTask();
+    test("Retrieve task from database", () async {
+      var id = await db.tasks.newTask();
 
-      var retrievedTask = db.tasks.get(id);
+      var retrievedTask = await db.tasks.get(id);
 
       assert(retrievedTask != null);
       expect(retrievedTask!.id, id);
     });
 
-    test("Update task in database", () {
-      var taskID = db.tasks.newTask();
-      Task? originalTask = db.tasks.get(taskID);
+    test("Update task in database", () async {
+      var taskID = await db.tasks.newTask();
+      Task? originalTask = await db.tasks.get(taskID);
 
-      assert(originalTask != null);
+      assert(originalTask is Task);
 
       originalTask!.title = "Updated title";
       originalTask.priorityValue = Priority.low;
 
-      var taskBeforeSave = db.tasks.get(taskID);
+      var taskBeforeSave = await db.tasks.get(taskID);
       assert(taskBeforeSave != originalTask);
 
-      var didSave = db.tasks.update(originalTask);
+      var didSave = await db.tasks.update(originalTask);
       assert(didSave);
 
-      var retrievedTask = db.tasks.get(originalTask.id);
+      var retrievedTask = await db.tasks.get(originalTask.id);
       expect(originalTask, retrievedTask);
     });
 
-    test("Delete created task", () {
-      var id = db.tasks.newTask();
-      var didDelete = db.tasks.delete(id);
+    test("Delete created task", () async {
+      var id = await db.tasks.newTask();
+      var didDelete = await db.tasks.delete(id);
       assert(didDelete);
 
-      var retrievedTask = db.tasks.get(id);
+      var retrievedTask = await db.tasks.get(id);
       expect(retrievedTask, null);
     });
 
-    test("Get, update and delete nonexistant id", () {
-      var retrievedTask = db.tasks.get("Bad id");
+    test("Get, update and delete nonexistant id", () async {
+      var retrievedTask = await db.tasks.get("Bad id");
       expect(retrievedTask, null);
 
-      expect(db.tasks.update(Task("Bad id")), false);
-      expect(db.tasks.delete("Bad id"), false);
+      expect(await db.tasks.update(Task("Bad id")), false);
+      expect(await db.tasks.delete("Bad id"), false);
     });
 
-    test("Get all tasks", () {
-      String id1 = db.tasks.newTask();
-      String id2 = db.tasks.newTask();
+    test("Get all tasks", () async {
+      String id1 = await db.tasks.newTask();
+      String id2 = await db.tasks.newTask();
 
-      List<Task> allTasks = db.tasks.getAll();
+      List<Task> allTasks = await db.tasks.getAll();
 
       expect(allTasks.length, 2);
       expect(allTasks[0].id, id1);
