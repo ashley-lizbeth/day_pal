@@ -1,10 +1,15 @@
 import 'package:flutter_test/flutter_test.dart';
+
+import 'package:day_pal/core/dataproviders/sqlite/sqlite_database.dart';
 import 'package:day_pal/core/dataproviders/in-memory/in_memory_database.dart';
+
 import 'package:day_pal/core/entities/priority.dart';
 import 'package:day_pal/core/entities/status.dart';
 
 import 'package:day_pal/core/entities/task.dart';
 import 'package:day_pal/core/repositories/database_wrapper.dart';
+
+import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 
 void main() {
   group("Task entity testing", () {
@@ -54,18 +59,20 @@ void main() {
   });
 
   group("Task database testing", () {
-    late Database db = InMemoryDatabase();
+    late DatabaseWrapper db;
 
-    setUp(() {
-      db.open();
+    setUpAll(() {
+      sqfliteFfiInit();
+      databaseFactory = databaseFactoryFfi;
     });
 
-    tearDown(() {
-      db.close();
+    setUp(() async {
+      db = SqliteDatabase();
+      await db.open();
     });
 
-    test("Database is open", () {
-      // Expand when adding new repositories
+    tearDown(() async {
+      await db.close();
     });
 
     test("Insert task into database", () async {
