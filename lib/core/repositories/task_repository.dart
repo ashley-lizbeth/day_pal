@@ -4,14 +4,14 @@ import 'package:day_pal/core/entities/task.dart';
 
 abstract class TaskRepository {
   Stream<TaskAction> get repositoryUpdate;
-  void open();
-  void close();
+  Future<void> open();
+  Future<void> close();
 
-  String newTask();
-  Task? get(String id);
-  List<Task> getAll();
-  bool delete(String id);
-  bool update(Task task);
+  Future<String> newTask();
+  Future<Task?> get(String id);
+  Future<List<Task>> getAll();
+  Future<bool> delete(String id);
+  Future<bool> update(Task task);
 }
 
 enum TaskActionType { added, updated, deleted }

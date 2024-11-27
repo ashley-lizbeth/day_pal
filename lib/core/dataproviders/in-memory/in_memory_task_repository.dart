@@ -13,18 +13,18 @@ class InMemoryTaskRepository implements TaskRepository {
   Stream<TaskAction> get repositoryUpdate => _repoUpdateController.stream;
 
   @override
-  void open() {
+  Future<void> open() async {
     _repoUpdateController = StreamController.broadcast();
   }
 
   @override
-  void close() {
+  Future<void> close() async {
     _tasks.clear();
     _repoUpdateController.close();
   }
 
   @override
-  String newTask() {
+  Future<String> newTask() async {
     final String id = cuid();
 
     var task = Task(id);
@@ -36,24 +36,24 @@ class InMemoryTaskRepository implements TaskRepository {
   }
 
   @override
-  Task? get(String id) {
+  Future<Task?> get(String id) async {
     var task = _tasks[id];
     if (task == null) return null;
     return task.getSelf();
   }
 
   @override
-  List<Task> getAll() {
+  Future<List<Task>> getAll() async {
     return _tasks.entries.map((task) => task.value).toList();
   }
 
   @override
-  bool delete(String id) {
+  Future<bool> delete(String id) async {
     return _tasks.remove(id) != null;
   }
 
   @override
-  bool update(Task task) {
+  Future<bool> update(Task task) async {
     if (!_tasks.containsKey(task.id)) {
       return false;
     }
