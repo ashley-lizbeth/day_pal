@@ -46,7 +46,7 @@ class _TasksScreenState extends State<TasksScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final db = InheritedDatabase.of(context)!.db;
+    final db = InheritedDatabase.of(context).db;
     db.tasks.getAll().then((taskList) => setState(() {
           tasks = taskList;
         }));

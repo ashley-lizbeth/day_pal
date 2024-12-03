@@ -54,8 +54,14 @@ class InheritedDatabase extends InheritedWidget {
     required this.onDatabaseChange,
   });
 
-  static InheritedDatabase? of(BuildContext context) {
+  static InheritedDatabase? maybeOf(BuildContext context) {
     return context.dependOnInheritedWidgetOfExactType<InheritedDatabase>();
+  }
+
+  static InheritedDatabase of(BuildContext context) {
+    final db = maybeOf(context);
+    assert(db != null, 'No InheritedDatabase found in context');
+    return db!;
   }
 
   @override

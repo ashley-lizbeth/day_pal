@@ -17,7 +17,7 @@ class TaskItem extends StatefulWidget {
 class _TaskItemState extends State<TaskItem> {
   @override
   Widget build(BuildContext context) {
-    final db = InheritedDatabase.of(context)!.db;
+    final db = InheritedDatabase.of(context).db;
 
     Status status = widget.task.status();
     Priority priority = widget.task.priority();

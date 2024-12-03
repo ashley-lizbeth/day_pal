@@ -37,7 +37,7 @@ class _TaskFormState extends State<TaskForm> {
 
   @override
   Widget build(BuildContext context) {
-    final db = InheritedDatabase.of(context)!.db;
+    final db = InheritedDatabase.of(context).db;
 
     Future<void> saveTask() async {
       String id = widget.baseTask != null
