@@ -18,6 +18,7 @@ class _AppState extends State<App> {
   Widget build(BuildContext context) {
     return DatabaseContext(
         child: MaterialApp(
+      title: "Day Pal: Your daily task manager",
       home: TasksScreen(),
     ));
   }
