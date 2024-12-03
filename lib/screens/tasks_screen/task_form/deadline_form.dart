@@ -104,17 +104,17 @@ class _DeadlineFormState extends State<DeadlineForm> {
                     if (widget.controller.enabled)
                       IconButton(
                           onPressed: () async {
-                            final TimeOfDay time = (await showTimePicker(
-                                    context: context,
-                                    initialTime: TimeOfDay(
-                                        hour: date.hour,
-                                        minute: date.minute))) ??
-                                TimeOfDay(hour: 23, minute: 59);
+                            final TimeOfDay? time = (await showTimePicker(
+                                context: context,
+                                initialTime: TimeOfDay(
+                                    hour: date.hour, minute: date.minute)));
 
-                            final DateTime dateWithTime = DateTime(date.year,
-                                date.month, date.day, time.hour, time.minute);
+                            if (time != null) {
+                              final DateTime dateWithTime = DateTime(date.year,
+                                  date.month, date.day, time.hour, time.minute);
 
-                            widget.controller.setDate(dateWithTime);
+                              widget.controller.setDate(dateWithTime);
+                            }
                           },
                           icon: Icon(Icons.access_time))
                   ],
