@@ -39,6 +39,18 @@ class _TaskFormState extends State<TaskForm> {
   Widget build(BuildContext context) {
     final db = InheritedDatabase.of(context).db;
 
+    final List<Widget> formFields = [
+      TitleForm(controller: controllers.title),
+      DescriptionForm(controller: controllers.description),
+      DeadlineForm(controller: controllers.deadline),
+      PriorityForm(
+        controller: controllers.priority,
+      ),
+      StatusForm(
+        controller: controllers.status,
+      ),
+    ];
+
     Future<void> saveTask() async {
       String id = widget.baseTask != null
           ? widget.baseTask!.id
@@ -63,38 +75,55 @@ class _TaskFormState extends State<TaskForm> {
         child: Form(
             key: _formKey,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: formFields
+                        .map((field) => Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              child: field,
+                            ))
+                        .toList(),
+                  ),
                   Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: TitleForm(controller: controllers.title)),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child:
-                          DescriptionForm(controller: controllers.description)),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: DeadlineForm(controller: controllers.deadline)),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: PriorityForm(
-                        controller: controllers.priority,
-                      )),
-                  Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: StatusForm(
-                        controller: controllers.status,
-                      )),
-                  ElevatedButton(
-                      onPressed: () async {
-                        if (_formKey.currentState!.validate()) {
-                          await saveTask();
-                          if (context.mounted) Navigator.pop(context);
-                        }
-                      },
-                      child: Text(submitButtonMessage))
+                    padding: const EdgeInsets.only(top: 20.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        MaterialButton(
+                            color: Colors.blue,
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            onPressed: () async {
+                              if (_formKey.currentState!.validate()) {
+                                await saveTask();
+                                if (context.mounted) Navigator.pop(context);
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 8.0, vertical: 2.0),
+                              child: Text(
+                                submitButtonMessage,
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 16),
+                              ),
+                            )),
+                        TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: Text(
+                              "Cancel",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 16,
+                              ),
+                            ))
+                      ],
+                    ),
+                  )
                 ],
               ),
             )),
@@ -114,7 +143,7 @@ class FormControllers {
     title.text = task.title;
     description.text = task.description;
     if (task.deadline != null) {
-      deadline.toggleEnabled();
+      deadline.setEnabled(true);
       deadline.setDate(task.deadline!);
     }
     priority.setValue(task.priority());
