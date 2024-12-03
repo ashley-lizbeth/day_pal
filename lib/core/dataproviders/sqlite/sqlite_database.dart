@@ -23,7 +23,7 @@ class SqliteDatabase implements DatabaseWrapper {
     } else {
       final io.Directory appDocumentsDir =
           await getApplicationDocumentsDirectory();
-      dbPath = path.join(appDocumentsDir.path, "databases", "daypal.sqlite");
+      dbPath = path.join(appDocumentsDir.path, "DayPal", "daypal.sqlite");
     }
 
     _db = await databaseFactoryFfi.openDatabase(dbPath,
