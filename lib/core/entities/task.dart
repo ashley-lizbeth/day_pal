@@ -57,10 +57,6 @@ class Task implements Comparable<Task> {
     var statusComparison = Status(statusKey).compareTo(Status(other.statusKey));
     if (statusComparison != 0) return statusComparison;
 
-    var priorityComparison =
-        Priority(priorityValue).compareTo(Priority(priorityValue));
-    if (priorityComparison != 0) return priorityComparison;
-
     if (deadline == null) {
       if (other.deadline != null) return 1;
       return 0;
@@ -71,7 +67,10 @@ class Task implements Comparable<Task> {
     if (deadline!.isAfter(other.deadline!)) return 1;
     if (deadline!.isBefore(other.deadline!)) return -1;
 
-    var titleComparison = title.compareTo(other.title);
+    final priorityComparison = priorityValue.compareTo(other.priorityValue);
+    if (priorityComparison != 0) return priorityComparison;
+
+    final titleComparison = title.compareTo(other.title);
     if (titleComparison != 0) return titleComparison;
 
     return description.compareTo(other.description);

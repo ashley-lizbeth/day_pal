@@ -69,8 +69,7 @@ class Priority implements Comparable<Priority> {
 
   @override
   int compareTo(Priority other) {
-    if (other.importance == importance) return 0;
-    return importance < other.importance ? -1 : 1;
+    return importance.compareTo(other.importance);
   }
 
   @override
