@@ -49,6 +49,7 @@ class _TasksScreenState extends State<TasksScreen> {
     final db = InheritedDatabase.of(context).db;
     db.tasks.getAll().then((taskList) => setState(() {
           tasks = taskList;
+          tasks.sort();
         }));
 
     dbSubscription = db.tasks.repositoryUpdate.listen((event) async {
