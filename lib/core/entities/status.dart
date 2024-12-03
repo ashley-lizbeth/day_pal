@@ -33,31 +33,36 @@ class Status implements Comparable<Status> {
   }
 
   (String, Icon) _getPredeterminedValuesFromKey() {
+    String message = "";
+    IconData icon = Icons.warning;
+    Color? color = Colors.yellow;
+
     if (key == completed) {
-      return (
-        "Completed",
-        Icon(
-          Icons.check_box,
-          color: Colors.green,
-        )
-      );
+      message = "Completed";
+      icon = Icons.check_box;
+      color = Colors.green;
     }
 
     if (key == blocked) {
-      return (
-        "Blocked",
-        Icon(
-          Icons.block,
-          color: Colors.red[800],
-        )
-      );
+      message = "Blocked";
+      icon = Icons.block;
+      color = Colors.red[800];
     }
 
     if (key == doing) {
-      return ("In progress", Icon(Icons.check_box_outline_blank));
+      message = "In progress";
+      icon = Icons.check_box_outline_blank;
+      color = null;
     }
 
-    return ("", Icon(Icons.warning));
+    return (
+      message,
+      Icon(
+        icon,
+        color: color,
+        size: 40,
+      )
+    );
   }
 
   @override

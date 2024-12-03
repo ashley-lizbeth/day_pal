@@ -23,57 +23,46 @@ class Priority implements Comparable<Priority> {
   }
 
   (String, Icon) _getPredeterminedValuesFromImportance() {
+    String message = "";
+    IconData icon = Icons.warning;
+    Color? color = Colors.yellow;
+
     if (importance == highest) {
-      return (
-        "Urgent",
-        Icon(
-          Icons.keyboard_double_arrow_up,
-          color: Colors.red,
-        )
-      );
+      message = "Urgent";
+      icon = Icons.keyboard_double_arrow_up;
+      color = Colors.red;
     }
+
     if (importance == high) {
-      return (
-        "Important",
-        Icon(
-          Icons.keyboard_arrow_up,
-          color: Colors.orange,
-        )
-      );
+      message = "Important";
+      icon = Icons.keyboard_arrow_up;
+      color = Colors.orange;
     }
+
     if (importance == neutral) {
-      return (
-        "Neutral",
-        Icon(
-          Icons.remove,
-          color: Colors.grey[800],
-        )
-      );
+      message = "Neutral";
+      icon = Icons.remove;
+      color = Colors.grey[800];
     }
+
     if (importance == low) {
-      return (
-        "Low priority",
-        Icon(
-          Icons.keyboard_arrow_down,
-          color: Colors.lightBlue,
-        )
-      );
+      message = "Low priority";
+      icon = Icons.keyboard_arrow_down;
+      color = Colors.lightBlue;
     }
+
     if (importance == lowest) {
-      return (
-        "Lowest priority",
-        Icon(
-          Icons.keyboard_double_arrow_down,
-          color: Colors.blue[800],
-        )
-      );
+      message = "Lowest priority";
+      icon = Icons.keyboard_double_arrow_down;
+      color = Colors.blue[800];
     }
 
     return (
-      "",
+      message,
       Icon(
-        Icons.warning,
-        color: Colors.yellow,
+        icon,
+        color: color,
+        size: 40,
       )
     );
   }
