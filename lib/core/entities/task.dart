@@ -1,5 +1,6 @@
 import 'package:day_pal/core/entities/priority.dart';
 import 'package:day_pal/core/entities/status.dart';
+import 'package:day_pal/core/utils/get_date_without_time.dart';
 
 class Task implements Comparable<Task> {
   final String id;
@@ -15,7 +16,7 @@ class Task implements Comparable<Task> {
     return Priority(priorityValue);
   }
 
-  String statusKey = Status.doing;
+  int statusKey = Status.doing;
   Status status() {
     return Status(statusKey);
   }
@@ -44,8 +45,14 @@ class Task implements Comparable<Task> {
     return copyOfSelf;
   }
 
-  bool? hasExpired() {
-    return deadline?.isBefore(createdAt);
+  bool hasExpired() {
+    if (deadline == null) return false;
+    return deadline!.isBefore(DateTime.now());
+  }
+
+  bool expiresToday() {
+    if (deadline == null) return false;
+    return getDateWithoutTime(deadline!) == getToday();
   }
 
   bool isHigherPriority(Task taskToCompare) {
@@ -54,7 +61,7 @@ class Task implements Comparable<Task> {
 
   @override
   int compareTo(Task other) {
-    var statusComparison = Status(statusKey).compareTo(Status(other.statusKey));
+    final statusComparison = statusKey.compareTo(other.statusKey);
     if (statusComparison != 0) return statusComparison;
 
     if (deadline == null) {

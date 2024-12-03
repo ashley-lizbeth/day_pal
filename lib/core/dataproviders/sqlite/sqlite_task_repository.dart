@@ -95,7 +95,7 @@ class SqliteTask extends Task {
     task.title = map[columnTitle] as String;
     task.description = map[columnDescription] as String;
     task.priorityValue = map[columnPriority] as int;
-    task.statusKey = map[columnStatus] as String;
+    task.statusKey = map[columnStatus] as int;
 
     try {
       task.deadline = DateTime.parse(map[columnDeadline] as String);

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Status implements Comparable<Status> {
-  static const String doing = "doing",
-      blocked = "blocked",
-      completed = "completed";
+  static const int doing = 1, blocked = 2, completed = 3;
 
   static List<Status> asList() {
     List<Status> statusList = [
@@ -15,7 +13,7 @@ class Status implements Comparable<Status> {
     return statusList;
   }
 
-  String key;
+  int key;
 
   late String name;
   late Icon icon;
@@ -24,12 +22,6 @@ class Status implements Comparable<Status> {
     var statusValues = _getPredeterminedValuesFromKey();
     name = statusValues.$1;
     icon = statusValues.$2;
-  }
-
-  int _getKeyValue() {
-    if (key == completed) return 3;
-    if (key == blocked) return 2;
-    return 1;
   }
 
   (String, Icon) _getPredeterminedValuesFromKey() {
@@ -67,8 +59,7 @@ class Status implements Comparable<Status> {
 
   @override
   int compareTo(Status other) {
-    if (key == other.key) return 0;
-    return _getKeyValue() < other._getKeyValue() ? -1 : 1;
+    return key.compareTo(other.key);
   }
 
   @override

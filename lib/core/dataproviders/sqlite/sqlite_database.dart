@@ -32,11 +32,11 @@ class SqliteDatabase implements DatabaseWrapper {
           onCreate: (db, version) async {
             await db.execute('''
               CREATE TABLE ${SqliteTask.tableName} (
-                ${SqliteTask.columnID} text primary key,
+                ${SqliteTask.columnID} text primary key not null,
                 ${SqliteTask.columnTitle} text not null,
                 ${SqliteTask.columnDescription} text,
                 ${SqliteTask.columnPriority} integer not null,
-                ${SqliteTask.columnStatus} text,
+                ${SqliteTask.columnStatus} integer not null,
                 ${SqliteTask.columnDeadline} text,
                 ${SqliteTask.columnCreatedAt} text not null
               )
