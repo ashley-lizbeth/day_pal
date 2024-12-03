@@ -21,33 +21,36 @@ class _TaskItemState extends State<TaskItem> {
 
     Status status = widget.task.status();
     Priority priority = widget.task.priority();
-    String deadline = widget.task.deadline != null
+
+    String deadlineText = widget.task.deadline != null
         ? convertDateTimeToText(widget.task.deadline!)
         : "No deadline";
+    Color? deadlineColor = Colors.black;
 
-    return Column(
-      children: [
-        Row(
+    Color? defaultColor = Colors.black;
+    TextDecoration? defaultDecoration;
+
+    if (widget.task.statusKey != Status.completed) {
+      if (widget.task.deadline != null) {
+        deadlineColor = widget.task.deadline!.isBefore(DateTime.now())
+            ? Colors.red[800]
+            : null;
+      }
+    }
+
+    if (widget.task.statusKey == Status.completed) {
+      defaultColor = Colors.grey[600];
+      deadlineColor = defaultColor;
+      defaultDecoration = TextDecoration.lineThrough;
+    }
+
+    return DefaultTextStyle(
+      style: TextStyle(color: defaultColor, decoration: defaultDecoration),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 8.0),
+        child: Row(
           children: [
-            Flexible(
-                flex: 1,
-                child: GestureDetector(
-                    onTap: () {
-                      if (status.key == Status.blocked) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Task is blocked")));
-                        return;
-                      }
-
-                      widget.task.statusKey = status.key == Status.completed
-                          ? Status.doing
-                          : Status.completed;
-
-                      db.tasks.update(widget.task);
-                    },
-                    child: status.icon)),
             Expanded(
-              flex: 4,
               child: GestureDetector(
                 onTap: () {
                   Navigator.push(
@@ -62,26 +65,71 @@ class _TaskItemState extends State<TaskItem> {
                   children: [
                     Row(
                       children: [
-                        Icon(
-                          Icons.calendar_month,
-                        ),
-                        Text(deadline)
+                        Builder(builder: (_) {
+                          if (widget.task.deadline == null) return SizedBox();
+                          return Padding(
+                            padding: const EdgeInsets.only(left: 40.0),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0),
+                                  child: Icon(
+                                    Icons.calendar_month,
+                                  ),
+                                ),
+                                Text(
+                                  deadlineText,
+                                  style: TextStyle(color: deadlineColor),
+                                )
+                              ],
+                            ),
+                          );
+                        })
                       ],
                     ),
                     Row(
-                      children: [priority.icon, Text(widget.task.title)],
+                      children: [
+                        GestureDetector(
+                            onTap: () {
+                              if (status.key == Status.blocked) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text("Task is blocked")));
+                                return;
+                              }
+
+                              widget.task.statusKey =
+                                  status.key == Status.completed
+                                      ? Status.doing
+                                      : Status.completed;
+
+                              db.tasks.update(widget.task);
+                            },
+                            child: status.icon),
+                        Padding(
+                          padding: EdgeInsets.symmetric(),
+                          child: priority.icon,
+                        ),
+                        Text(
+                          widget.task.title,
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 23),
-                      child: Text(widget.task.description),
-                    )
+                    Builder(builder: (_) {
+                      if (widget.task.description == "") return SizedBox();
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 80.0),
+                        child: Text(widget.task.description),
+                      );
+                    })
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
-      ],
+      ),
     );
   }
 }
