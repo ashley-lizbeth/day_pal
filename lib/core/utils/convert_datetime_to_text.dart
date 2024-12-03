@@ -1,3 +1,10 @@
+import 'package:day_pal/core/utils/get_date_without_time.dart';
+import 'package:flutter/material.dart';
+
+String displayDateTimeWithContext(BuildContext context, DateTime date) {
+  return "${convertDateTimeToText(date)}, ${TimeOfDay(hour: date.hour, minute: date.minute).format(context)}";
+}
+
 String convertDateTimeToText(DateTime date) {
   final difference = date.difference(getToday()).inDays;
 

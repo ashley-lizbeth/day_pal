@@ -53,28 +53,72 @@ class _DeadlineFormState extends State<DeadlineForm> {
           children: [
             Wrap(
               children: [
-                Text(
-                  "Deadline: ",
-                  style: TextStyle(
-                      color: Colors.black, fontWeight: FontWeight.bold),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Deadline: ",
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    )
+                  ],
                 ),
-                Text(enabled ? convertDateTimeToText(date) : "No deadline"),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(enabled ? convertDateTimeToText(date) : "No deadline"),
+                    if (enabled)
+                      Text(TimeOfDay(hour: date.hour, minute: date.minute)
+                          .format(context))
+                  ],
+                )
               ],
             ),
             Wrap(
               spacing: 20,
               children: [
-                IconButton(
-                    onPressed: () async {
-                      await showDialog(
-                        context: context,
-                        builder: (context) => CalendarDialog(
-                            controller: widget.controller, originalDate: date),
-                      );
-                    },
-                    icon: widget.controller.enabled
-                        ? Icon(Icons.edit)
-                        : Icon(Icons.add)),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    IconButton(
+                        onPressed: () async {
+                          await showDialog(
+                            context: context,
+                            builder: (context) => CalendarDialog(
+                                setDate: (DateTime newDate) {
+                                  widget.controller.setDate(DateTime(
+                                      newDate.year,
+                                      newDate.month,
+                                      newDate.day,
+                                      date.hour,
+                                      date.minute));
+                                  widget.controller.setEnabled(true);
+                                },
+                                originalDate: date),
+                          );
+                        },
+                        icon: widget.controller.enabled
+                            ? Icon(Icons.edit)
+                            : Icon(Icons.add)),
+                    if (widget.controller.enabled)
+                      IconButton(
+                          onPressed: () async {
+                            final TimeOfDay time = (await showTimePicker(
+                                    context: context,
+                                    initialTime: TimeOfDay(
+                                        hour: date.hour,
+                                        minute: date.minute))) ??
+                                TimeOfDay(hour: 23, minute: 59);
+
+                            final DateTime dateWithTime = DateTime(date.year,
+                                date.month, date.day, time.hour, time.minute);
+
+                            widget.controller.setDate(dateWithTime);
+                          },
+                          icon: Icon(Icons.access_time))
+                  ],
+                ),
                 Builder(builder: (_) {
                   if (!widget.controller.enabled) return SizedBox();
                   return IconButton(
@@ -94,10 +138,10 @@ class _DeadlineFormState extends State<DeadlineForm> {
 }
 
 class CalendarDialog extends StatefulWidget {
-  final DeadlineController controller;
+  final void Function(DateTime) setDate;
   final DateTime originalDate;
   const CalendarDialog(
-      {super.key, required this.controller, required this.originalDate});
+      {super.key, required this.setDate, required this.originalDate});
 
   @override
   State<CalendarDialog> createState() => _CalendarDialogState();
@@ -109,13 +153,7 @@ class _CalendarDialogState extends State<CalendarDialog> {
   @override
   void initState() {
     super.initState();
-    date = widget.controller.date;
-
-    widget.controller.addListener(() {
-      setState(() {
-        date = widget.controller.date;
-      });
-    });
+    date = widget.originalDate;
   }
 
   @override
@@ -154,46 +192,45 @@ class _CalendarDialogState extends State<CalendarDialog> {
                   value: [date],
                   onValueChanged: (dates) {
                     setState(() {
-                      widget.controller.setDate(dates[0]);
+                      date = dates[0];
                     });
                   }),
             ),
             Divider(),
             SizedBox(
               height: height * 0.1,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  TextButton(
-                      onPressed: () {
-                        widget.controller.setEnabled(true);
-                        Navigator.of(context).pop();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          "Save",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, color: Colors.blue),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text("Cancel",
+                              style: TextStyle(color: Colors.blue)),
                         ),
-                      )),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextButton(
-                      onPressed: () {
-                        widget.controller.setDate(widget.originalDate);
-                        Navigator.of(context).pop();
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text("Cancel",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue)),
                       ),
                     ),
-                  ),
-                ],
+                    TextButton(
+                        onPressed: () {
+                          widget.setDate(date);
+                          Navigator.of(context).pop();
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "Save",
+                            style: TextStyle(color: Colors.blue),
+                          ),
+                        )),
+                  ],
+                ),
               ),
             ),
           ],

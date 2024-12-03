@@ -23,8 +23,9 @@ class _TaskItemState extends State<TaskItem> {
     Priority priority = widget.task.priority();
 
     String deadlineText = widget.task.deadline != null
-        ? convertDateTimeToText(widget.task.deadline!)
+        ? displayDateTimeWithContext(context, widget.task.deadline!)
         : "No deadline";
+
     Color? deadlineColor = Colors.black;
 
     Color? defaultColor = Colors.black;

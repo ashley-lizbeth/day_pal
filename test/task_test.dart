@@ -45,6 +45,14 @@ void main() {
       expect(task.expiresToday(), false);
     });
 
+    test('Compare tasks with deadlines differing in hours', () {
+      final firstTask = Task("Same Task");
+      final secondTask = Task("Same Task");
+
+      firstTask.deadline = DateTime.utc(2024, 12, 01, 12, 0, 0);
+      secondTask.deadline = DateTime.utc(2024, 12, 01, 13, 0, 0);
+
+      expect(firstTask.compareTo(secondTask), -1);
     });
 
     test('Compare tasks with differing priority', () {
