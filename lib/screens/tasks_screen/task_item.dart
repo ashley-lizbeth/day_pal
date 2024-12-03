@@ -32,14 +32,13 @@ class _TaskItemState extends State<TaskItem> {
 
     if (widget.task.statusKey != Status.completed) {
       if (widget.task.deadline != null) {
-        deadlineColor = widget.task.deadline!.isBefore(DateTime.now())
-            ? Colors.red[800]
-            : null;
+        if (widget.task.expiresToday()) deadlineColor = Colors.orange[800];
+        if (widget.task.hasExpired()) deadlineColor = Colors.red[800];
       }
     }
 
     if (widget.task.statusKey == Status.completed) {
-      defaultColor = Colors.grey[600];
+      defaultColor = Colors.grey;
       deadlineColor = defaultColor;
       defaultDecoration = TextDecoration.lineThrough;
     }

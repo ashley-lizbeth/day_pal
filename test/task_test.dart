@@ -26,19 +26,25 @@ void main() {
     });
 
     test('Create task with expired deadline', () {
-      final task = Task("A sample task");
-      task.createdAt = DateTime.utc(2024, 12, 31);
-      task.deadline = DateTime.utc(2020, 01, 01);
+      final expiredTask = Task("Expired task");
+      final aMinuteAgo = DateTime.now().subtract(Duration(minutes: 1));
+      expiredTask.deadline = aMinuteAgo;
 
-      expect(task.deadline, DateTime.utc(2020, 01, 01));
-      expect(task.hasExpired(), true);
+      final goodTask = Task("Not expired");
+      goodTask.deadline = DateTime.now().add(Duration(hours: 1));
+
+      expect(expiredTask.hasExpired(), true);
+      expect(goodTask.hasExpired(), false);
     });
 
     test('Create task with no deadline', () {
       final task = Task("Another task");
 
       expect(task.deadline, null);
-      expect(task.hasExpired(), null);
+      expect(task.hasExpired(), false);
+      expect(task.expiresToday(), false);
+    });
+
     });
 
     test('Compare tasks with differing priority', () {
