@@ -1,7 +1,5 @@
 String convertDateTimeToText(DateTime date) {
-  final now = DateTime.now();
-  final today = DateTime(now.year, now.month, now.day);
-  final difference = date.difference(today).inDays;
+  final difference = date.difference(getToday()).inDays;
 
   if (difference == -1) return "Yesterday";
   if (difference == 0) return "Today";
