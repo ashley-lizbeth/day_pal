@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:day_pal/core/dataproviders/in-memory/in_memory_database.dart';
+
+import 'package:day_pal/screens/loading_screen.dart';
+
 import 'package:day_pal/core/repositories/database_wrapper.dart';
 import 'package:day_pal/core/dataproviders/init.dart';
 
@@ -17,39 +19,49 @@ class DatabaseContext extends StatefulWidget {
 
 class _DatabaseContextState extends State<DatabaseContext> {
   final DatabaseWrapper db = initializeDatabaseWrapperBasedOnEnvironment();
-      await db.close();
-      db = newDb;
+
+  bool isDBOpen = false;
+
+  void openDatabase() async {
+    await db.open();
+    setState(() {
+      isDBOpen = true;
     });
+  }
+
+  void closeDatabase() async {
+    setState(() {
+      isDBOpen = false;
+    });
+    await db.close();
   }
 
   @override
   void initState() {
     super.initState();
-    db.open();
+    openDatabase();
   }
 
   @override
   void dispose() {
-    db.close();
     super.dispose();
+    closeDatabase();
   }
 
   @override
   Widget build(BuildContext context) {
-    return InheritedDatabase(
-        db: db, onDatabaseChange: onDatabaseChange, child: widget.child);
+    if (!isDBOpen) return LoadingScreen();
+    return InheritedDatabase(db: db, child: widget.child);
   }
 }
 
 class InheritedDatabase extends InheritedWidget {
   final DatabaseWrapper db;
-  final ValueChanged<DatabaseWrapper> onDatabaseChange;
 
   const InheritedDatabase({
     super.key,
     required super.child,
     required this.db,
-    required this.onDatabaseChange,
   });
 
   static InheritedDatabase? maybeOf(BuildContext context) {
@@ -64,6 +76,6 @@ class InheritedDatabase extends InheritedWidget {
 
   @override
   bool updateShouldNotify(InheritedDatabase oldWidget) {
-    return oldWidget.db != db || oldWidget.onDatabaseChange != onDatabaseChange;
+    return oldWidget.db != db;
   }
 }
