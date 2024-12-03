@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:day_pal/core/dataproviders/in-memory/in_memory_database.dart';
 import 'package:day_pal/core/repositories/database_wrapper.dart';
+import 'package:day_pal/core/dataproviders/init.dart';
 
 class DatabaseContext extends StatefulWidget {
   static InheritedDatabase? of(BuildContext context) =>
@@ -15,10 +16,7 @@ class DatabaseContext extends StatefulWidget {
 }
 
 class _DatabaseContextState extends State<DatabaseContext> {
-  DatabaseWrapper db = InMemoryDatabase();
-
-  void onDatabaseChange(DatabaseWrapper newDb) {
-    setState(() async {
+  final DatabaseWrapper db = initializeDatabaseWrapperBasedOnEnvironment();
       await db.close();
       db = newDb;
     });
