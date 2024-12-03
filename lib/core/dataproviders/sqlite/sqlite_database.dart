@@ -41,6 +41,11 @@ class SqliteDatabase implements DatabaseWrapper {
                 ${SqliteTask.columnCreatedAt} text not null
               )
             ''');
+
+            await db.execute('''
+              CREATE INDEX idx_tasks_deadline 
+              ON ${SqliteTask.tableName}(${SqliteTask.columnDeadline});
+            ''');
           },
         ));
 
