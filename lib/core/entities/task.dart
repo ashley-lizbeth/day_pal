@@ -73,7 +73,10 @@ class Task implements Comparable<Task> {
     final titleComparison = title.compareTo(other.title);
     if (titleComparison != 0) return titleComparison;
 
-    return description.compareTo(other.description);
+    final descriptionComparison = description.compareTo(other.description);
+    if (descriptionComparison != 0) return descriptionComparison;
+
+    return createdAt.compareTo(other.createdAt);
   }
 
   @override
