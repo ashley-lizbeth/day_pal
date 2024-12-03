@@ -1,4 +1,5 @@
 import 'package:day_pal/core/entities/task.dart';
+import 'package:day_pal/core/utils/convert_datetime_to_text.dart';
 import 'package:day_pal/database_context.dart';
 import 'package:day_pal/screens/tasks_screen/task_form/deadline_form.dart';
 import 'package:day_pal/screens/tasks_screen/task_form/description_form.dart';
@@ -88,11 +89,29 @@ class _TaskFormState extends State<TaskForm> {
                             ))
                         .toList(),
                   ),
+                  Builder(builder: (_) {
+                    if (widget.baseTask == null) return SizedBox();
+                    return Text(
+                      "Created: ${displayDateTimeWithContext(context, widget.baseTask!.createdAt)}",
+                      style: TextStyle(
+                        color: Colors.grey,
+                      ),
+                    );
+                  }),
                   Padding(
-                    padding: const EdgeInsets.only(top: 20.0),
+                    padding: const EdgeInsets.only(top: 40.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
+                        TextButton(
+                            onPressed: () => Navigator.of(context).pop(),
+                            child: Text(
+                              "Cancel",
+                              style: TextStyle(
+                                color: Colors.blue,
+                                fontSize: 16,
+                              ),
+                            )),
                         MaterialButton(
                             color: Colors.blue,
                             shape: RoundedRectangleBorder(
@@ -112,15 +131,6 @@ class _TaskFormState extends State<TaskForm> {
                                     color: Colors.white, fontSize: 16),
                               ),
                             )),
-                        TextButton(
-                            onPressed: () => Navigator.of(context).pop(),
-                            child: Text(
-                              "Cancel",
-                              style: TextStyle(
-                                color: Colors.blue,
-                                fontSize: 16,
-                              ),
-                            ))
                       ],
                     ),
                   )
