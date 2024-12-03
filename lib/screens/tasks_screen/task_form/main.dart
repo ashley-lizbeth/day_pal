@@ -56,6 +56,7 @@ class _TaskFormState extends State<TaskForm> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
         title: Text(widgetTitle),
       ),
       body: SingleChildScrollView(

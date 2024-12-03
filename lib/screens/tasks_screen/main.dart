@@ -81,6 +81,8 @@ class _TasksScreenState extends State<TasksScreen> {
         );
       }),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
         child: Icon(Icons.add),
         onPressed: () {
           Navigator.push(
