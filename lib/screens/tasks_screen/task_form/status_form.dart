@@ -36,9 +36,12 @@ class _StatusFormState extends State<StatusForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       children: [
-        Text("Status"),
+        Text("Status: ", style: TextStyle(fontWeight: FontWeight.bold)),
+        SizedBox(
+          width: 24,
+        ),
         DropdownButton<Status>(
             value: dropdownValue,
             items: Status.asList()

@@ -36,9 +36,12 @@ class _PriorityFormState extends State<PriorityForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Row(
       children: [
-        Text("Priority"),
+        Text("Priority: ", style: TextStyle(fontWeight: FontWeight.bold)),
+        SizedBox(
+          width: 14,
+        ),
         DropdownButton<Priority>(
             value: dropdownValue,
             items: Priority.asList()
