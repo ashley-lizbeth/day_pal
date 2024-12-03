@@ -78,7 +78,33 @@ class _TasksScreenState extends State<TasksScreen> {
         }
 
         return ListView(
-          children: tasks.map((task) => TaskItem(task: task)).toList(),
+          children: tasks
+              .map((task) => Dismissible(
+                  key: Key(task.id),
+                  direction: DismissDirection.endToStart,
+                  background: Container(
+                    color: Colors.red,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Icon(Icons.delete_forever,
+                            size: 40, color: Colors.white),
+                        SizedBox(
+                          width: 40,
+                        )
+                      ],
+                    ),
+                  ),
+                  onDismissed: (_) async {
+                    removeTask(task.id);
+                    await db.tasks.delete(task.id);
+                    if (context.mounted) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Task dismissed")));
+                    }
+                  },
+                  child: TaskItem(task: task)))
+              .toList(),
         );
       }),
       floatingActionButton: FloatingActionButton(
